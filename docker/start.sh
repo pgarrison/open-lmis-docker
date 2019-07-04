@@ -20,8 +20,8 @@ $TOMCAT_HOME/configureTomcat.sh
 # configure open-lmis-manager
 /configureOpenLmisManager.sh
 
-service postgresql start
-su - openlmis -c "export JAVA_HOME=/opt/java/jdk1.7.0_55/;export JAVA_OPTS='-XX:MaxPermSize=256M -DenvironmentName=local -DdefaultLocale=en';/home/openlmis/apache-tomcat/bin/startup.sh"
+su postgres -c "/usr/pgsql-9.6/bin/pg_ctl restart -D /var/lib/pgsql/data/ -swt 300"
+su - openlmis -c "export JAVA_HOME=/opt/java/java-se-8u40-ri/;export JAVA_OPTS='-XX:MaxPermSize=256M -DenvironmentName=local -DdefaultLocale=en';/home/openlmis/apache-tomcat/bin/startup.sh"
 
 echo OpenLMIS container now running
 
