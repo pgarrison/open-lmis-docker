@@ -7,7 +7,7 @@ RUN yum install -y vim sudo && yum clean all
 USER root
 ADD db /open-lmis-db
 WORKDIR /open-lmis-db
-RUN wget http://build.openlmis.org/job/OpenLMIS-Stable/lastSuccessfulBuild/artifact/modules/db/build/libs/open_lmis.dump -O open_lmis.custom &&
+ADD build-outputs/pg.dump open_lmis.dump
 
 # configure postgres server
 ENV PGPASSWORD p@ssw0rd
@@ -35,8 +35,8 @@ ADD docker/tomcat/configureTomcat.sh $TOMCAT_HOME/
 RUN chmod u+x $TOMCAT_HOME/configureTomcat.sh
 
 # get OpenLMIS
+ADD build-outputs/openlmis-web.war /home/openlmis/openlmis-web.war
 RUN cd /home/openlmis && \
-    wget http://build.openlmis.org/job/OpenLMIS-Stable/lastSuccessfulBuild/artifact/modules/openlmis-web/build/libs/openlmis-web.war && \
     chown openlmis:openlmis openlmis-web.war && \
     rm -Rf apache-tomcat/webapps/ROOT* && \
     cp openlmis-web.war apache-tomcat/webapps/ROOT.war
